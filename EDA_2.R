@@ -1,7 +1,8 @@
 
 setwd("~/Desktop/beacon_test")
 load("2days.rda")
-
+library(dplyr)
+library(tidyverse)
 ##hotel ID
 ##100014A5:北びわこホテルグラッツェ
 ##100014A4:ロイヤル
