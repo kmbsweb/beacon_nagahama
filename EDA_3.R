@@ -21,13 +21,32 @@ change_pt <- TT %>%
             cnt = n()) %>%
   distinct(.keep_all = FALSE) 
   
-#summarize(cnt = n()) %>%
-  #spread(key = device,value = cnt) %>%
 
+table <-read.csv("https://raw.githubusercontent.com/kmbsweb/beacon_nagahama/master/table.csv",
+                 header=T, fileEncoding="Shift_JIS",stringsAsFactors = FALSE)
 
+class(change_pt$duration)
+change_pt  %>%
+  select(duration,device) %>%
+  mutate(hour = duration/60)%>%
+  left_join(table, by="device") %>%
+  ungroup(person_ID)%>%
+  select(hour,設置場所) %>%
+  group_by(設置場所) %>%
+  summarize(mean   =  mean(hour),
+            median = median(hour),
+            max    = max(hour),
+            min    = min(hour),
+            stdev  = sd(hour),
+            cnt = n()) %>%
+  ggplot(aes(x = 設置場所, y = cnt)) + 
+  geom_bar(stat = "identity") + 
+  coord_flip() + 
+  theme_bw(base_family = "HiraKakuProN-W3")
 
-table <-read.csv("table.csv",header=T, fileEncoding="Shift_JIS",stringsAsFactors = FALSE)
+tt %>%
+  ggplot(aes(hour)) + 
+  geom_histogram(fill="darkgrey") +
+  facet_wrap(~ 設置場所) 
+ 
 
-ggplot(aes(hour)) + 
-  theme_minimal() +
-  geom_histogram(fill="darkgrey")
