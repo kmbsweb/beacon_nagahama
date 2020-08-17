@@ -44,9 +44,3 @@ change_pt  %>%
   coord_flip() + 
   theme_bw(base_family = "HiraKakuProN-W3")
 
-tt %>%
-  ggplot(aes(hour)) + 
-  geom_histogram(fill="darkgrey") +
-  facet_wrap(~ 設置場所) 
- 
-
